@@ -6,3 +6,4 @@ openai
 langchain
 Pillow
 streamlit-chat
+langchain-experimental
