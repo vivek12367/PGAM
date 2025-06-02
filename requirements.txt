@@ -5,3 +5,4 @@ python-dotenv
 openai
 langchain
 Pillow
+streamlit-chat
