@@ -11,8 +11,15 @@ except ImportError:
     pass
 
 # Required environment variables
-PUBMATIC_TOKEN = os.getenv("PUBMATIC_TOKEN", "")
-PUBLISHER_ID   = os.getenv("PUBMATIC_PUBLISHER_IDS", "").split(",")[0].strip()
+try:
+    import streamlit as st
+    PUBMATIC_TOKEN = st.secrets["PUBMATIC_TOKEN"]
+    PUBLISHER_ID   = st.secrets["PUBMATIC_PUBLISHER_IDS"].split(",")[0].strip()
+except:
+    from dotenv import load_dotenv
+    load_dotenv()
+    PUBMATIC_TOKEN = os.getenv("PUBMATIC_TOKEN", "")
+    PUBLISHER_ID   = os.getenv("PUBMATIC_PUBLISHER_IDS", "").split(",")[0].strip()
 
 # API configuration
 BASE_URL  = "https://api.pubmatic.com/v1/analytics/data/publisher"

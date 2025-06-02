@@ -21,9 +21,17 @@ def fetch_unruly_all(date=None, exclude_domains=None):
     excludes = {d.lower() for d in (exclude_domains or [])}
 
     # 2) creds + auth
-    username = os.getenv("UNRULY_USERNAME")
-    password = os.getenv("UNRULY_PASSWORD")
-    api_key  = os.getenv("UNRULY_API_KEY")
+    try:
+        import streamlit as st
+        username = st.secrets["UNRULY_USERNAME"]
+        password = st.secrets["UNRULY_PASSWORD"]
+        api_key  = st.secrets["UNRULY_API_KEY"]
+    except:
+        from dotenv import load_dotenv
+        load_dotenv()
+        username = os.getenv("UNRULY_USERNAME")
+        password = os.getenv("UNRULY_PASSWORD")
+        api_key  = os.getenv("UNRULY_API_KEY")
     if not (username and password and api_key):
         raise EnvironmentError("UNRULY_USERNAME, UNRULY_PASSWORD, UNRULY_API_KEY must be set")
 

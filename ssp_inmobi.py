@@ -21,8 +21,14 @@ def fetch_inmobi_all(date=None):
     end    = target + "T23:59:59Z"
 
     # 2) pull credentials from env
-    username   = os.getenv("INMOBI_USERNAME", "")
-    secret_key = os.getenv("INMOBI_SECRET_KEY", "")
+    try:
+        import streamlit as st
+        username   = st.secrets["INMOBI_USERNAME"]
+        secret_key = st.secrets["INMOBI_SECRET_KEY"]
+    except:
+        username   = os.getenv("INMOBI_USERNAME", "")
+        secret_key = os.getenv("INMOBI_SECRET_KEY", "")
+
     if not (username and secret_key):
         raise EnvironmentError("INMOBI_USERNAME and INMOBI_SECRET_KEY must be set in .env")
 

@@ -13,8 +13,15 @@ def fetch_sharethrough_all(date=None, exclude_domains=None):
       - df: DataFrame with columns [Date, Domain, SSP_Dash, SSP_Impressions, SSP_eCPM]
       - total_revenue: float
     """
-    token         = os.getenv("SHARETHROUGH_TOKEN")
-    publisher_key = os.getenv("SHARETHROUGH_ACCOUNT_ID")
+    try:
+        import streamlit as st
+        token         = st.secrets["SHARETHROUGH_TOKEN"]
+        publisher_key = st.secrets["SHARETHROUGH_ACCOUNT_ID"]
+    except:
+        from dotenv import load_dotenv
+        load_dotenv()
+        token         = os.getenv("SHARETHROUGH_TOKEN")
+        publisher_key = os.getenv("SHARETHROUGH_ACCOUNT_ID")
     if not token or not publisher_key:
         raise EnvironmentError(
             "SHARETHROUGH_TOKEN and SHARETHROUGH_ACCOUNT_ID must be set"

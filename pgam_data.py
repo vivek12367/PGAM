@@ -3,6 +3,7 @@ import requests
 import pandas as pd
 import logging
 from datetime import datetime, timezone, timedelta
+from secrets import get_secret
 from requests.exceptions import HTTPError, JSONDecodeError
 
 # ─── Logging ────────────────────────────────────────────────────────────────────
@@ -14,17 +15,24 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # ─── Load .env ─────────────────────────────────────────────────────────────────
+
+API_BASE    = "https://ssp.pgammedia.com/api"
+ADX_EX_BASE = "https://ssp.pgammedia.com/ad-exchange"
+
 try:
     from dotenv import load_dotenv
     load_dotenv()
 except ImportError:
     pass
-
-API_BASE    = "https://ssp.pgammedia.com/api"
-ADX_EX_BASE = "https://ssp.pgammedia.com/ad-exchange"
-TOKEN       = os.getenv("PGAM_TOKEN")
-EMAIL       = os.getenv("PGAM_EMAIL")
-PASSWORD    = os.getenv("PGAM_PASSWORD")
+try:
+    import streamlit as st
+    TOKEN    = st.secrets["PGAM_TOKEN"]
+    EMAIL    = st.secrets["PGAM_EMAIL"]
+    PASSWORD = st.secrets["PGAM_PASSWORD"]
+except:
+    TOKEN       = os.getenv("PGAM_TOKEN")
+    EMAIL       = os.getenv("PGAM_EMAIL")
+    PASSWORD    = os.getenv("PGAM_PASSWORD")
 
 DSP_NAME_MAP = {
     'HCode':           'AMX',

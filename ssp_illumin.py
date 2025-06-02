@@ -12,7 +12,11 @@ def fetch_illumin_all(date=None, exclude_domains=None):
     grouped by domain. Returns (df, total_revenue) where df has columns:
       [Date, Domain, SSP_Dash, SSP_Impressions, Requests, Fill Rate, SSP_eCPM]
     """
-    base_url = os.getenv("ILLUMIN_API_BASE")
+    try:
+        import streamlit as st
+        base_url = st.secrets["ILLUMIN_API_BASE"]
+    except:
+        base_url = os.getenv("ILLUMIN_API_BASE", "")
     if not base_url:
         raise EnvironmentError("ILLUMIN_API_BASE must be set in environment")
 

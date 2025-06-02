@@ -16,7 +16,11 @@ def fetch_adaptmx_all(date=None, exclude_domains=None):
     Fetch net revenue and impressions for AdaptMX (AppMonet) for a given date.
     Returns (df, total_revenue) where df has columns [Date, Domain, SSP_Dash, SSP_Impressions].
     """
-    api_key = os.getenv("ADAPTMX_KEY")
+    try:
+        import streamlit as st
+        api_key = st.secrets["ADAPTMX_KEY"]
+    except:
+        api_key = os.getenv("ADAPTMX_KEY")
     if not api_key:
         raise EnvironmentError("ADAPTMX_KEY is missing from environment")
 

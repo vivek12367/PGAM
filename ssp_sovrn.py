@@ -33,10 +33,19 @@ def fetch_sovrn_all(date=None, exclude_domains=None):
     end   = f"{target}T23:59:59Z"
 
     # 2) Load creds
-    web_key      = os.getenv("SOVRN_WEB_API_KEY")
-    ctv_key      = os.getenv("SOVRN_CTV_API_KEY")
-    publisher_id = os.getenv("SOVRN_PUBLISHER_ID")
-    company_id   = os.getenv("SOVRN_COMPANY_ID", publisher_id)
+    try:
+        import streamlit as st
+        web_key      = st.secrets["SOVRN_WEB_API_KEY"]
+        ctv_key      = st.secrets["SOVRN_CTV_API_KEY"]
+        publisher_id = st.secrets["SOVRN_PUBLISHER_ID"]
+        company_id   = st.secrets.get("SOVRN_COMPANY_ID", publisher_id)
+    except:
+        from dotenv import load_dotenv
+        load_dotenv()
+        web_key      = os.getenv("SOVRN_WEB_API_KEY")
+        ctv_key      = os.getenv("SOVRN_CTV_API_KEY")
+        publisher_id = os.getenv("SOVRN_PUBLISHER_ID")
+        company_id   = os.getenv("SOVRN_COMPANY_ID", publisher_id)
 
     if not (web_key and ctv_key and publisher_id):
         raise EnvironmentError(

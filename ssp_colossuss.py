@@ -10,8 +10,13 @@ load_dotenv()
 BASE_URL = "https://supply.colossusssp.com/api"
 
 def _get_token():
-    email    = os.getenv("COLOSSUS_EMAIL")
-    password = os.getenv("COLOSSUS_PASSWORD")
+    try:
+        import streamlit as st
+        email    = st.secrets["COLOSSUS_EMAIL"]
+        password = st.secrets["COLOSSUS_PASSWORD"]
+    except:
+        email    = os.getenv("COLOSSUS_EMAIL")
+        password = os.getenv("COLOSSUS_PASSWORD")
     if not (email and password):
         raise EnvironmentError("COLOSSUS_EMAIL and COLOSSUS_PASSWORD must be set")
     resp = requests.post(f"{BASE_URL}/create_token",

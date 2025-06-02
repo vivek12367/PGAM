@@ -17,11 +17,19 @@ def fetch_freewheel_all(date=None, exclude_domains=None):
     api_date = target.replace('-', '')
 
     # 2) creds
-    token       = os.getenv("FREEWHEEL_TOKEN", "")
-    pgam_id     = os.getenv("FREEWHEEL_PUBLISHER_ID", "")
-    adv_id      = os.getenv("FREEWHEEL_ADV_ID", "")
-    bfprebid_id = os.getenv("FREEWHEEL_BFPREBID_ID", "")
-    ctv_id      = os.getenv("FREEWHEEL_CTV_ID", "")
+    try:
+        import streamlit as st
+        token       = st.secrets["FREEWHEEL_TOKEN"]
+        pgam_id     = st.secrets["FREEWHEEL_PUBLISHER_ID"]
+        adv_id      = st.secrets["FREEWHEEL_ADV_ID"]
+        bfprebid_id = st.secrets["FREEWHEEL_BFPREBID_ID"]
+        ctv_id      = st.secrets["FREEWHEEL_CTV_ID"]
+    except:
+        token       = os.getenv("FREEWHEEL_TOKEN", "")
+        pgam_id     = os.getenv("FREEWHEEL_PUBLISHER_ID", "")
+        adv_id      = os.getenv("FREEWHEEL_ADV_ID", "")
+        bfprebid_id = os.getenv("FREEWHEEL_BFPREBID_ID", "")
+        ctv_id      = os.getenv("FREEWHEEL_CTV_ID", "")
 
     if not (token and pgam_id and adv_id and bfprebid_id and ctv_id):
         raise EnvironmentError(

@@ -14,7 +14,13 @@ def _yesterday_iso():
     return (datetime.now().date() - timedelta(days=1)).isoformat()
 
 def fetch_onetag_all(date=None, exclude_domains=None):
-    api_url = os.getenv("ONETAG_URL")
+    try:
+        import streamlit as st
+        api_url = st.secrets["ONETAG_URL"]
+    except:
+        from dotenv import load_dotenv
+        load_dotenv()
+        api_url = os.getenv("ONETAG_URL")
     if not api_url:
         raise EnvironmentError(
             "ONETAG_API_URL is not set. "

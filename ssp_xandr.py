@@ -12,9 +12,17 @@ import sys
 load_dotenv()
 
 # Configuration via environment variables
-IMAP_SERVER = os.getenv("IMAP_SERVER", "imap.gmail.com")
-EMAIL_USER  = os.getenv("EMAIL_USER")
-EMAIL_PASS  = os.getenv("EMAIL_PASS")
+try:
+    import streamlit as st
+    IMAP_SERVER = st.secrets.get("IMAP_SERVER", "imap.gmail.com")
+    EMAIL_USER  = st.secrets["EMAIL_USER"]
+    EMAIL_PASS  = st.secrets["EMAIL_PASS"]
+except:
+    from dotenv import load_dotenv
+    load_dotenv()
+    IMAP_SERVER = os.getenv("IMAP_SERVER", "imap.gmail.com")
+    EMAIL_USER  = os.getenv("EMAIL_USER")
+    EMAIL_PASS  = os.getenv("EMAIL_PASS")
 
 # Validate credentials
 if not EMAIL_USER or not EMAIL_PASS:

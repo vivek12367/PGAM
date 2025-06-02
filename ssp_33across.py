@@ -3,13 +3,17 @@ import requests
 import pandas as pd
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
-
+from secrets import get_secret
 # Load environment variables from .env
 load_dotenv()
 
 # API configuration
 API_URL = "https://platform.33across.com/api/v2/dashboard_reporting"
-TOKEN   = os.getenv("ACROSS_TOKEN", "")
+try:
+    import streamlit as st
+    TOKEN = st.secrets["ACROSS_TOKEN"]
+except:
+    TOKEN = os.getenv("ACROSS_TOKEN", "")
 PAGE    = 1
 
 # Dimensions & Metrics

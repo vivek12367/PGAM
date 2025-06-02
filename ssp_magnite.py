@@ -11,10 +11,16 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # ─── CONFIG ────────────────────────────────────────────────────────────────────────
-load_dotenv()
-API_KEY    = os.getenv("MAGNITE_ACCESS_KEY")
-API_SECRET = os.getenv("MAGNITE_SECRET_KEY")
-PUBLISHER  = os.getenv("MAGNITE_PUBLISHER_ID")
+try:
+    import streamlit as st
+    API_KEY    = st.secrets["MAGNITE_ACCESS_KEY"]
+    API_SECRET = st.secrets["MAGNITE_SECRET_KEY"]
+    PUBLISHER  = st.secrets["MAGNITE_PUBLISHER_ID"]
+except:
+    load_dotenv()
+    API_KEY    = os.getenv("MAGNITE_ACCESS_KEY")
+    API_SECRET = os.getenv("MAGNITE_SECRET_KEY")
+    PUBLISHER  = os.getenv("MAGNITE_PUBLISHER_ID")
 BASE_URL   = "https://api.rubiconproject.com/analytics/v2/default"
 CACHE_FILE = Path(__file__).with_suffix(".cache.json")
 
