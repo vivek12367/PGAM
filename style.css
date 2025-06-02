@@ -1,0 +1,163 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   style.css – PGAM-branded Dashboard Styles (updated)
+─────────────────────────────────────────────────────────────────────────────── */
+
+/* ── 1) Brand Variables ─────────────────────────────────────────────────────── */
+:root {
+  --pgam-primary:   #004C97; /* your PGAM header/nav color */
+  --pgam-secondary: #F5A300; /* your PGAM accent/button color */
+  --pgam-accent:    #E61F27; /* highlights, link hover, etc */
+  --pgam-bg:        #FFFFFF; /* white panels */
+  --pgam-page-bg:   #3b9bfa; /* light gray background – unchanged */
+  --pgam-font:      'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ── 2) Global & Utility ─────────────────────────────────────────────────────── */
+body,
+.stApp {
+  background-color: var(--pgam-page-bg);
+  font-family: var(--pgam-font);
+  color: #333333;
+}
+
+/* hide the hamburger & footer bar, but leave headers intact */
+#MainMenu,
+footer {
+  visibility: hidden;
+}
+
+/* ── 3) Page & Section Wrappers ─────────────────────────────────────────────── */
+.page {
+  animation: fadeInPage 0.6s ease-in-out;
+}
+@keyframes fadeInPage {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.section {
+  background: var(--pgam-bg);
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  animation: fadeInSection 0.5s ease-in-out;
+}
+@keyframes fadeInSection {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── 4) KPI Cards ───────────────────────────────────────────────────────────── */
+.kpi-card {
+  background: var(--pgam-bg);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  text-align: center;
+  margin-bottom: 16px;
+  transition: transform 0.2s ease;
+  min-height: 120px;               /* ensure equal height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.kpi-card:hover {
+  transform: scale(1.05);
+}
+.kpi-card h4 {
+  margin: 0 0 8px;
+  color: var(--pgam-primary);
+  font-weight: 600;
+}
+.kpi-card p {
+  margin: 0;
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--pgam-secondary);
+}
+
+/* ── 5) Vega-Lite Chart Embeds ──────────────────────────────────────────────── */
+.vega-embed {
+  background: var(--pgam-bg);
+  box-shadow: 4px 4px 20px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  margin-bottom: 32px; /* more space below */
+  padding: 16px;       /* breathing room around charts */
+  overflow-x: auto;    /* allow horizontal scroll on small screens */
+}
+.vega-embed .mark-rect,
+.vega-embed .mark-symbol {
+  filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.1));
+}
+/* style chart titles */
+.vega-embed .vega-title {
+  font-size: 1.2em;
+  font-weight: 600;
+  fill: var(--pgam-primary);
+  text-anchor: start; /* left-align title */
+}
+
+/* ── 6) Tables & DataFrames ───────────────────────────────────────────────────── */
+/* striped rows */
+.stDataFrame table tr:nth-child(odd)  { background: #fafafa; }
+.stDataFrame table tr:nth-child(even) { background: #ffffff; }
+/* hover highlight */
+.stDataFrame table tr:hover {
+  background: #e8f4ff !important;
+}
+
+/* ── 7) Buttons & Links ──────────────────────────────────────────────────────── */
+button, .stButton>button {
+  background-color: var(--pgam-secondary) !important;
+  color: white !important;
+  border-radius: 4px !important;
+  border: none !important;
+  padding: 8px 16px !important;
+  transition: background-color 0.2s ease;
+}
+button:hover, .stButton>button:hover {
+  background-color: #d43f2d !important; /* stronger accent on hover */
+}
+a, .stMarkdown a {
+  color: var(--pgam-primary);
+  text-decoration: none;
+}
+a:hover, .stMarkdown a:hover {
+  text-decoration: underline;
+}
+
+/* ── 8) Page Titles ────────────────────────────────────────────────────────────── */
+/* applies to your <h1> injected by render_header() */
+.page h1,
+.stApp h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+
+  /* gradient text fill */
+  background: linear-gradient(90deg, var(--pgam-primary), var(--pgam-secondary));
+
+  /* standard + vendor-prefixed clip */
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+/* colored underline bar */
+.page h1::after,
+.stApp h1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 60px;
+  height: 4px;
+  background: var(--pgam-secondary);
+  border-radius: 2px;
+}
