@@ -3,7 +3,6 @@ import requests
 import pandas as pd
 import logging
 from datetime import datetime, timezone, timedelta
-from secrets import get_secret
 from requests.exceptions import HTTPError, JSONDecodeError
 
 # ─── Logging ────────────────────────────────────────────────────────────────────
