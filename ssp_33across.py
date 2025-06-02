@@ -3,7 +3,6 @@ import requests
 import pandas as pd
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
-from secrets import get_secret
 # Load environment variables from .env
 load_dotenv()
 
