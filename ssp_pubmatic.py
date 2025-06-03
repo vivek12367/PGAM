@@ -24,7 +24,7 @@ except:
 # API configuration
 BASE_URL  = "https://api.pubmatic.com/v1/analytics/data/publisher"
 HEADERS   = {"Authorization": f"Bearer {PUBMATIC_TOKEN}", "Accept": "application/json"}
-PAGE_SIZE = 256000
+PAGE_SIZE = 10000  # keep this at a reasonable value (e.g., 10k per page)
 
 # Dimensions & Metrics: max 10 metrics allowed
 DEFAULT_DIMENSIONS = "date,appDomain"
@@ -66,6 +66,7 @@ def fetch_pubmatic_all(date=None, exclude_domains=None):
             "dateUnit":   "date",
             "pageSize":   PAGE_SIZE,
             "page":       page,
+            "sort":       "netRevenue:desc"   # ensure stable ordering by revenue
         }
         url = f"{BASE_URL}/{PUBLISHER_ID}"
         resp = requests.get(url, headers=HEADERS, params=params)
@@ -106,6 +107,10 @@ def fetch_pubmatic_all(date=None, exclude_domains=None):
         if len(rows) < PAGE_SIZE:
             break
         page += 1
+
+    # ── Debug prints ───────────────────────────────────────────────────────────
+    print(f"[DEBUG] Collected {len(records)} total records across all pages")
+    print(f"[DEBUG] Sample domains (first 10): {[r['AppDomain'] for r in records[:10]]}")
 
     df = pd.DataFrame(records, columns=[
         "Date", "AppDomain", "SSP_Dash", "SSP_Impressions", "SSP_eCPM"
